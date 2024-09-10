@@ -48,10 +48,10 @@ class NewestBookItem extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      '19.99 €',
+                      'Free',
                       style: TextStyles.font20Bold,
                     ),
-                    SizedBox(width: 36.w),
+                    SizedBox(width: 50.w),
                     const BookRating(),
                   ],
                 ),

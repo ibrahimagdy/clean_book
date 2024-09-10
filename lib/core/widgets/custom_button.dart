@@ -8,7 +8,6 @@ class CustomButton extends StatelessWidget {
   final BorderRadius borderRadius;
   final String text;
   final Color textColor;
-  final double? fontSize;
 
   const CustomButton({
     super.key,
@@ -16,7 +15,6 @@ class CustomButton extends StatelessWidget {
     required this.borderRadius,
     required this.text,
     required this.textColor,
-    this.fontSize,
   });
 
   @override
@@ -35,7 +33,6 @@ class CustomButton extends StatelessWidget {
           text,
           style: TextStyles.font18SemiBold.copyWith(
             color: textColor,
-            fontSize: fontSize,
           ),
         ),
       ),
