@@ -3,7 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/utils/styles.dart';
 
 class BookRating extends StatelessWidget {
-  const BookRating({super.key});
+  final num rating;
+  final int count;
+  const BookRating({super.key, required this.rating, required this.count});
 
   @override
   Widget build(BuildContext context) {
@@ -16,12 +18,12 @@ class BookRating extends StatelessWidget {
         ),
         SizedBox(width: 3.w),
         Text(
-          '4.8',
+          rating.toString(),
           style: TextStyles.font16Regular,
         ),
         SizedBox(width: 6.w),
         Text(
-          '(2390)',
+          '($count)',
           style: TextStyles.font14Regular,
         ),
       ],

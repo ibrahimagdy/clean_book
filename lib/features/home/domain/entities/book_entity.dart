@@ -15,6 +15,10 @@ class BookEntity {
   final num? price;
   @HiveField(5)
   final num? rating;
+  @HiveField(6)
+  final int? count;
+  @HiveField(7)
+  final String? previewLink;
 
   const BookEntity({
     required this.bookId,
@@ -23,5 +27,7 @@ class BookEntity {
     required this.authorName,
     required this.price,
     required this.rating,
+    required this.count,
+    required this.previewLink
   });
 }
