@@ -9,8 +9,8 @@ abstract class Failures {
 class ServiceFailure extends Failures {
   ServiceFailure(super.errMessage);
 
-  factory ServiceFailure.fromDioError(DioException dioError) {
-    switch (dioError.type) {
+  factory ServiceFailure.fromDioError(DioException dioException) {
+    switch (dioException.type) {
       case DioExceptionType.connectionTimeout:
         return ServiceFailure('Connection timeout with ApiServer');
       case DioExceptionType.sendTimeout:
@@ -21,13 +21,13 @@ class ServiceFailure extends Failures {
         return ServiceFailure('Invalid certificate. Please check your network security settings.');
       case DioExceptionType.badResponse:
         return ServiceFailure.fromResponse(
-          dioError.response?.statusCode,
-          dioError.response?.data,
+          dioException.response?.statusCode,
+          dioException.response?.data,
         );
       case DioExceptionType.cancel:
         return ServiceFailure('Request to ApiServer was canceled');
       case DioExceptionType.connectionError:
-        if (dioError.message?.contains('SocketException') ?? false) {
+        if (dioException.message?.contains('SocketException') ?? false) {
           return ServiceFailure('No Internet Connection');
         }
         return ServiceFailure('No Internet Connection');
