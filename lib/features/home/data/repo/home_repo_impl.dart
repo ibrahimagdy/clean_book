@@ -13,13 +13,13 @@ class HomeRepoImpl extends HomeRepo{
   HomeRepoImpl({required this.homeRemoteDataSource, required this.homeLocalDataSource});
 
   @override
-  Future<Either<Failures, List<BookEntity>>> fetchFeaturedBooks() async {
+  Future<Either<Failures, List<BookEntity>>> fetchFeaturedBooks({int pageNumber = 0}) async {
     try{
-      var cachedBooks = homeLocalDataSource.fetchFeaturedBooks();
+      var cachedBooks = homeLocalDataSource.fetchFeaturedBooks(pageNumber: pageNumber);
       if(cachedBooks.isNotEmpty){
         return right(cachedBooks);
       }
-      var books = await homeRemoteDataSource.fetchFeaturedBooks();
+      var books = await homeRemoteDataSource.fetchFeaturedBooks(pageNumber: pageNumber);
       return right(books);
     }
     catch(e){
