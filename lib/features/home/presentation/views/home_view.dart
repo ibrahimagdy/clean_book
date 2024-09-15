@@ -1,9 +1,16 @@
+import 'package:bookly_app/core/di/dependency_injection.dart';
 import 'package:bookly_app/core/utils/styles.dart';
+import 'package:bookly_app/features/home/data/repo/home_repo_impl.dart';
+import 'package:bookly_app/features/home/domain/use_cases/fetch_newest_books_use_case.dart';
+import 'package:bookly_app/features/home/presentation/view_model/fetch_featured_books_cubit/fetch_featured_books_cubit.dart';
+import 'package:bookly_app/features/home/presentation/view_model/fetch_newest_books_cubit/fetch_newest_books_cubit.dart';
 import 'package:bookly_app/features/home/presentation/views/widgets/newest_books_list_view.dart';
 import 'package:bookly_app/features/home/presentation/views/widgets/custom_app_bar.dart';
 import 'package:bookly_app/features/home/presentation/views/widgets/featured_books_list_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../domain/use_cases/fetch_featured_books_use_case.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
@@ -23,7 +30,14 @@ class HomeView extends StatelessWidget {
                   children: [
                     const CustomAppBar(),
                     SizedBox(height: 23.h),
-                    const FeaturedBookListView(),
+                    BlocProvider(
+                      create: (context) => FetchFeaturedBooksCubit(
+                        FetchFeaturedBooksUseCase(
+                          getIt.get<HomeRepoImpl>(),
+                        ),
+                      )..fetchFeaturedBooks(),
+                      child: const FeaturedBookListView(),
+                    ),
                     SizedBox(height: 49.h),
                     Text(
                       'Newest Books',
@@ -33,7 +47,14 @@ class HomeView extends StatelessWidget {
                   ],
                 ),
               ),
-              const NewestBooksListView(),
+              BlocProvider(
+                create: (context) => FetchNewestBooksCubit(
+                  FetchNewestBooksUseCase(
+                    getIt.get<HomeRepoImpl>(),
+                  ),
+                )..fetchNewestBooks(),
+                child: const NewestBooksListView(),
+              ),
             ],
           ),
         ),

@@ -1,27 +1,35 @@
 import 'package:bookly_app/core/routing/routes.dart';
+import 'package:bookly_app/core/utils/assets.dart';
+import 'package:bookly_app/features/home/domain/entities/book_entity.dart';
 import 'package:bookly_app/features/home/presentation/views/widgets/book_rating.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import '../../../../../core/utils/assets.dart';
 import '../../../../../core/utils/styles.dart';
 
 class NewestBookItem extends StatelessWidget {
-  const NewestBookItem({super.key});
+  final BookEntity bookEntity;
+
+  const NewestBookItem({super.key, required this.bookEntity});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => GoRouter.of(context).push(Routes.details),
+      onTap: () => GoRouter.of(context).push(Routes.details, extra: bookEntity),
       child: Row(
         children: [
-          Container(
+          SizedBox(
             width: 83.w,
             height: 113.h,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12),
-              image: const DecorationImage(
-                image: NetworkImage(Assets.testImage),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(12.r),
+              child: CachedNetworkImage(
+                imageUrl: bookEntity.image ?? Assets.testImage,
+                errorWidget: (context, url, error) => const Icon(
+                  Icons.error_outline,
+                  size: 28,
+                ),
               ),
             ),
           ),
@@ -33,7 +41,7 @@ class NewestBookItem extends StatelessWidget {
                 SizedBox(
                   width: 196.w,
                   child: Text(
-                    'Harry Potter and the Goblet of Fire',
+                    bookEntity.title,
                     style: TextStyles.font20Regular,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
@@ -41,7 +49,7 @@ class NewestBookItem extends StatelessWidget {
                 ),
                 SizedBox(height: 3.h),
                 Text(
-                  'J.K. Rowling',
+                  bookEntity.authorName!,
                   style: TextStyles.font14Regular,
                 ),
                 SizedBox(height: 3.h),
@@ -52,7 +60,10 @@ class NewestBookItem extends StatelessWidget {
                       style: TextStyles.font20Bold,
                     ),
                     SizedBox(width: 50.w),
-                    const BookRating(),
+                    BookRating(
+                      rating: bookEntity.rating ?? 0,
+                      count: bookEntity.count ?? 0,
+                    ),
                   ],
                 ),
               ],
