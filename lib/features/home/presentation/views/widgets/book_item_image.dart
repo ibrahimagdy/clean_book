@@ -1,20 +1,28 @@
+import 'package:bookly_app/features/home/domain/entities/book_entity.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import '../../../../../core/utils/assets.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../../../../core/routing/routes.dart';
 
 class BookItemImage extends StatelessWidget {
-  const BookItemImage({super.key});
+  final BookEntity bookEntity;
+  final String imageUrl;
+  const BookItemImage({super.key, required this.imageUrl, required this.bookEntity});
 
   @override
   Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: 2.7 / 4,
-      child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 12),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-          image: const DecorationImage(
-            image: NetworkImage(Assets.testImage),
-            fit: BoxFit.cover
+    return GestureDetector(
+      onTap: ()=> GoRouter.of(context).push(Routes.details,extra: bookEntity),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(12.r),
+        child: AspectRatio(
+          aspectRatio: 2.7 / 4,
+          child: CachedNetworkImage(
+            imageUrl: imageUrl,
+            fit: BoxFit.fill,
+            errorWidget: (context, url, error) => const Icon(Icons.error_outline, size: 38,),
           ),
         ),
       ),
