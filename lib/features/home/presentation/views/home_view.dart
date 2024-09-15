@@ -6,7 +6,7 @@ import 'package:bookly_app/features/home/presentation/view_model/fetch_featured_
 import 'package:bookly_app/features/home/presentation/view_model/fetch_newest_books_cubit/fetch_newest_books_cubit.dart';
 import 'package:bookly_app/features/home/presentation/views/widgets/newest_books_list_view.dart';
 import 'package:bookly_app/features/home/presentation/views/widgets/custom_app_bar.dart';
-import 'package:bookly_app/features/home/presentation/views/widgets/featured_books_list_view.dart';
+import 'package:bookly_app/features/home/presentation/views/widgets/featured_books_bloc_consumer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -36,7 +36,7 @@ class HomeView extends StatelessWidget {
                           getIt.get<HomeRepoImpl>(),
                         ),
                       )..fetchFeaturedBooks(),
-                      child: const FeaturedBookListView(),
+                      child: const FeaturedBooksBlocConsumer(),
                     ),
                     SizedBox(height: 49.h),
                     Text(
